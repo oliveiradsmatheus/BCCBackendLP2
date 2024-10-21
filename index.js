@@ -14,7 +14,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const host = "0.0.0.0"; // Todas as placas de rede do computador que está executando a aplicação
-const porta = 3000;
+const porta = 4000;
 
 const app = express(); // Aplicação completa HTTP
 // Prepara a aplicação para processar dados no formato JSON
@@ -31,6 +31,7 @@ app.use(express.static('./publico'));
 
 
 app.use('/produtos', rotaProduto);
+app.use('/categorias', rotaCategoria);
 // app.use('/clientes',rotaCliente);
 // app.use('/fornecedores', rotaFornecedor);
 // app.use('/usuarios', rotaUsuario);

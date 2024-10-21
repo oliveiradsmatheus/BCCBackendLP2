@@ -1,5 +1,5 @@
-import Categoria from "../Modelo/categoria";
-import conectar from "./Conexao";
+import Categoria from "../Modelo/categoria.js";
+import conectar from "./Conexao.js";
 
 export default class CategoriaDAO {
     constructor() {
@@ -56,9 +56,18 @@ export default class CategoriaDAO {
         }
 
     }
-    async consultar() {
+    async consultar(termo) {
+        let sql = "";
+        let parametros = [];
+        if (isNaN(parseInt(termo))) {
+            sql = "SELECT * FROM categoria WHERE descricao LIKE ? ORDER BY cat_descricao";
+            parametros.push("%" + termo + "%");
+        }
+        else {
+            sql = "SELECT * FROM categoria WHERE codigo = ? ORDER BY cat_descricao";
+            parametros.push(termo);
+        }
         const conexao = await conectar();
-        const sql = "SELECT * FROM categoria ORDER BY cat_descricao";
         const [registros, campos] = await conexao.query(sql);
         listaCategorias = [];
         for (const registro of registros) {
