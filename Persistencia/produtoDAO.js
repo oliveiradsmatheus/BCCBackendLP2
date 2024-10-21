@@ -22,8 +22,8 @@ export default class ProdutoDAO {
                 prod_dataValidade DATE NOT NULL,
                 fk_codigo_cat INT NOT NULL,
                 CONSTRAINT pk_produto PRIMARY KEY(prod_codigo),
-                CONSTRAINT fk_categoria FOREIGN KEY(fk_codigo_cat) REFERENCES categoria(codigo) 
-            )
+                CONSTRAINT fk_categoria FOREIGN KEY(fk_codigo_cat) REFERENCES categoria(cat_codigo) 
+            );
         `;
             await conexao.execute(sql);
             await conexao.release();
@@ -80,19 +80,19 @@ export default class ProdutoDAO {
         let parametros = [];
         if (isNaN(parseInt(termo))) {
             sql = `SELECT * FROM produto p
-                   INNER JOIN categoria c ON p.fk_codigo_cat = c.codigo
+                   INNER JOIN categoria c ON p.fk_codigo_cat = c.cat_codigo
                    WHERE prod_descricao LIKE ?`;
             parametros = ['%' + termo + '%'];
         } else {
             sql = `SELECT * FROM produto p
-                   INNER JOIN categoria c ON p.fk_codigo_cat = c.codigo 
+                   INNER JOIN categoria c ON p.fk_codigo_cat = c.cat_codigo 
                    WHERE prod_codigo = ?`
             parametros = [termo];
         }
         const [linhas, campos] = await conexao.execute(sql, parametros);
         let listaProdutos = [];
         for (const linha of linhas) {
-            const categoria = new Categoria(linha['codigo'], linha["descricao"]);
+            const categoria = new Categoria(linha['cat_codigo'], linha["cat_descricao"]);
             const produto = new Produto(
                 linha['prod_codigo'],
                 linha['prod_descricao'],

@@ -9,7 +9,7 @@ import express from 'express';
 import rotaProduto from './Rotas/rotaProdutos.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import rotaCategoria from './Rotas/rotaCategoria.js';
+import rotaCategoria from './Rotas/rotaCategorias.js';
 
 // Carregar as variáveis de ambiente a partir
 // do arquivo .env localizado na raiz do projeto
