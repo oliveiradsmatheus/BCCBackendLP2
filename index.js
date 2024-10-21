@@ -9,8 +9,10 @@ import express from 'express';
 import rotaProduto from './Rotas/rotaProdutos.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import rotaCategoria from './Rotas/rotaCategoria.js';
 
-// Carregar as variáveis de ambiente a partir do arquivo .env localizado na raiz do projeto
+// Carregar as variáveis de ambiente a partir
+// do arquivo .env localizado na raiz do projeto
 dotenv.config();
 
 const host = "0.0.0.0"; // Todas as placas de rede do computador que está executando a aplicação
@@ -30,13 +32,13 @@ app.use(cors({
 app.use(express.static('./publico'));
 
 
-app.use('/produtos', rotaProduto);
-app.use('/categorias', rotaCategoria);
-// app.use('/clientes',rotaCliente);
-// app.use('/fornecedores', rotaFornecedor);
-// app.use('/usuarios', rotaUsuario);
+app.use("/produtos", rotaProduto);
+app.use("/categorias", rotaCategoria);
+//app.use('/clientes',rotaCliente);
+//app.use('/fornecedores', rotaFornecedor);
+//app.use('/usuarios', rotaUsuario);
 
-/*app.get('/',(requisicao, resposta)=>{
+/*app.get('/', (requisicao, resposta) => {
     resposta.send('<h1>Página principal</h1>');
     resposta.end();
 })
@@ -46,12 +48,12 @@ app.get('/dinheiro', (requisicao, resposta) => {
     resposta.end();
 })
 
-// Disponibilize a tabuada do 7 no endpoint /tabuada7
-app.get('/tabuada',(requisicao, resposta)=>{
+//disponibilize a tabuada do 7 no endpoint /tabuada7
+app.get('/tabuada', (requisicao, resposta) => {
     let cont = 0;
     const ate = requisicao.query.ate;
     const numero = requisicao.query.numero;
-    while (cont < ate){
+    while (cont < ate) {
         resposta.write(`<p>${numero} x ${cont} = ${numero * cont}</p>`);
         cont++;
     }

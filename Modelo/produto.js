@@ -1,4 +1,6 @@
 import ProdutoDAO from "../Persistencia/produtoDAO.js";
+import Categoria from "./categoria.js";
+
 export default class Produto {
     // Atributos privados
     #codigo;
@@ -8,7 +10,7 @@ export default class Produto {
     #qtdEstoque;
     #urlImagem;
     #dataValidade;
-    #categoria;
+    #categoria
 
     get codigo() {
         return this.#codigo;
@@ -67,12 +69,13 @@ export default class Produto {
     }
 
     get categoria() {
-        return this.#categoria;
+        return this.#categoria
     }
 
     set categoria(novaCategoria) {
-        if (novaCategoria instanceof Categoria)
+        if (novaCategoria instanceof Categoria) {
             this.#categoria = novaCategoria;
+        }
     }
 
     // Construtor (criador de um produto)
@@ -90,7 +93,7 @@ export default class Produto {
 
     // Override do método toJSON
     // O método toJSON é chamado automaticamente quando um produto
-    // Precisa ser convertido no formato JSON
+    // Precisar ser convertido no formato JSON
     toJSON() {
         return {
             "codigo": this.#codigo,

@@ -1,50 +1,52 @@
 import CategoriaDAO from "../Persistencia/categoriaDAO.js";
+
 export default class Categoria {
-    // Atributos privados
+    // Atributos privados usando a sintaxe #
     #codigo;
     #descricao;
 
+    // Construtor da classe
+    constructor(codigo, descricao) {
+        this.#codigo = codigo;       // Atribuindo valor ao atributo privado
+        this.#descricao = descricao;  // Atribuindo valor ao atributo privado
+    }
+
+    // Método get para o atributo codigo
     get codigo() {
         return this.#codigo;
     }
 
-    set codigo(novoCodigo) {
-        this.#codigo = novoCodigo;
+    // Método set para o atributo codigo
+    set codigo(value) {
+        this.#codigo = value;
     }
 
+    // Método get para o atributo descricao
     get descricao() {
         return this.#descricao;
     }
 
-    set descricao(novaDescricao) {
-        this.#descricao = novaDescricao;
+    // Método set para o atributo descricao
+    set descricao(value) {
+        this.#descricao = value;
     }
 
-    // Construtor (criador de um produto)
-    constructor(codigo = 0, descricao = "") {
-        this.#codigo = codigo;
-        this.#descricao = descricao;
-    }
-
-    // Override do método toJSON
-    // O método toJSON é chamado automaticamente quando um produto
-    // Precisa ser convertido no formato JSON
+    // Método toJSON para conversão em JSON
     toJSON() {
         return {
-            "codigo": this.#codigo,
-            "descricao": this.#descricao
-        }
+            codigo: this.#codigo,
+            descricao: this.#descricao
+        };
     }
 
     async gravar() {
-        // Instanciar a camada de persistencia do produto
         const catDAO = new CategoriaDAO();
-        await catDAO.gravar(this); // this referencia a si mesmo
+        await catDAO.gravar(this);
     }
 
-    async alterar() {
+    async editar() {
         const catDAO = new CategoriaDAO();
-        await catDAO.alterar(this);
+        await catDAO.editar(this);
     }
 
     async excluir() {

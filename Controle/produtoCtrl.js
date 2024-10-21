@@ -1,6 +1,6 @@
 // É a classe responsável por traduzir requisições HTTP e produzir respostas HTTP
 import Produto from "../Modelo/produto.js";
-import Categoria from "../Modelo/categoria.js"
+import Categoria from "../Modelo/categoria.js";
 
 export default class ProdutoCtrl {
 
@@ -15,32 +15,36 @@ export default class ProdutoCtrl {
             const qtdEstoque = requisicao.body.qtdEstoque;
             const urlImagem = requisicao.body.urlImagem;
             const dataValidade = requisicao.body.dataValidade;
-            const categoria = requisicao.body.categora;
-
+            const categoria = requisicao.body.categoria;
+            const categ = new Categoria(categoria.codigo);
             categ.consultar(categoria.codigo).then((listaCategorias) => {
-                if (listaCategorias.legth > 0) {
+                if (listaCategorias.length > 0) {
                     // Pseudo-validação
-                    if (codigo > 0 && descricao && precoCusto > 0 &&
+                    if (descricao && precoCusto > 0 &&
                         precoVenda > 0 && qtdEstoque >= 0 &&
                         urlImagem && dataValidade && categoria.codigo > 0) {
-                        //alterar o produto
-                        const produto = new Produto(codigo,
+                        // Gravar o produto
+
+                        const produto = new Produto(0,
                             descricao, precoCusto, precoVenda,
-                            qtdEstoque, urlImagem, dataValidade, categoria);
-                        produto.alterar()
+                            qtdEstoque, urlImagem, dataValidade, categ);
+
+                        produto.incluir()
                             .then(() => {
                                 resposta.status(200).json({
                                     "status": true,
-                                    "mensagem": "Produto alterado com sucesso!",
+                                    "mensagem": "Produto adicionado com sucesso!",
+                                    "codigo": produto.codigo
                                 });
                             })
                             .catch((erro) => {
                                 resposta.status(500).json({
                                     "status": false,
-                                    "mensagem": "Não foi possível alterar o produto: " + erro.message
+                                    "mensagem": "Não foi possível incluir o produto: " + erro.message
                                 });
                             });
-                    } else {
+                    }
+                    else {
                         resposta.status(400).json(
                             {
                                 "status": false,
@@ -48,65 +52,25 @@ export default class ProdutoCtrl {
                             }
                         );
                     }
-
-                } else {
-                    resposta.status(400).json(
-                        {
-                            "status": false,
-                            "mensagem": "Informe corretamente todos os dados de um produto conforme documentação da API."
-                        }
-                    );
+                }
+                else {
+                    resposta.status(400).json({
+                        "status": false,
+                        "mensagem": "A categoria informada não existe!"
+                    });
                 }
             }).catch((erro) => {
                 resposta.status(500).json({
                     "status": false,
-                    "mesagem": "Não foi possível validar a categoria" + erro.message
+                    "mensagem": "Não foi possível validar a categoria: " + erro.message
                 });
-            })
-
-            // Validação de regra de negócio
-            const categ = new Categoria(categoria.codigo);
-
-            // Pseudo-validação
-            if (descricao && precoCusto > 0 &&
-                precoVenda > 0 && qtdEstoque >= 0 &&
-                urlImagem && dataValidade && categoria.codigo > 0) {
-                //gravar o produto
-                const produto = new Produto(0,
-                    descricao, precoCusto, precoVenda,
-                    qtdEstoque, urlImagem, dataValidade, categ);
-
-                produto.incluir()
-                    .then(() => {
-                        resposta.status(200).json({
-                            "status": true,
-                            "mensagem": "Produto adicionado com sucesso!",
-                            "codigo": produto.codigo
-                        });
-                    })
-                    .catch((erro) => {
-                        resposta.status(500).json({
-                            "status": false,
-                            "mensagem": "Não foi possível incluir o produto: " + erro.message
-                        });
-                    });
-            } else {
-                resposta.status(400).json(
-                    {
-                        "status": false,
-                        "mensagem": "Informe corretamente todos os dados de um produto conforme documentação da API."
-                    }
-                );
-            }
-
+            });
         } else {
             resposta.status(400).json({
                 "status": false,
                 "mensagem": "Requisição inválida! Consulte a documentação da API."
             });
-
         }
-
     }
 
     editar(requisicao, resposta) {
@@ -123,7 +87,7 @@ export default class ProdutoCtrl {
             const urlImagem = requisicao.body.urlImagem;
             const dataValidade = requisicao.body.dataValidade;
             const categoria = requisicao.body.categoria;
-            // Valdação de regra de negócio
+            // Validação de regra de negócio
             const categ = new Categoria(categoria.codigo);
             categ.consultar(categoria.codigo).then((lista) => {
                 if (lista.length > 0) {
@@ -131,10 +95,10 @@ export default class ProdutoCtrl {
                     if (codigo > 0 && descricao && precoCusto > 0 &&
                         precoVenda > 0 && qtdEstoque >= 0 &&
                         urlImagem && dataValidade && categoria.codigo > 0) {
-                        //alterar o produto
+                        // Alterar o produto
                         const produto = new Produto(codigo,
                             descricao, precoCusto, precoVenda,
-                            qtdEstoque, urlImagem, dataValidade, categoria);
+                            qtdEstoque, urlImagem, dataValidade, categ);
                         produto.alterar()
                             .then(() => {
                                 resposta.status(200).json({
@@ -156,18 +120,21 @@ export default class ProdutoCtrl {
                             }
                         );
                     }
+
                 } else {
                     resposta.status(400).json({
                         "status": false,
-                        "mesagem": "A categoria informada não existe!" + erro.message
+                        "mensagem": "A categoria informada não existe!"
                     });
                 }
+
             }).catch((erro) => {
                 resposta.status(500).json({
                     "status": false,
-                    "mesagem": "Não foi possível validar a categoria" + erro.message
+                    "mensagem": "Não foi possível validar a categoria: " + erro.message
                 });
             });
+
         } else {
             resposta.status(400).json({
                 "status": false,
@@ -201,8 +168,7 @@ export default class ProdutoCtrl {
                             "mensagem": "Não foi possível excluir o produto: " + erro.message
                         });
                     });
-            }
-            else {
+            } else {
                 resposta.status(400).json(
                     {
                         "status": false,
@@ -211,8 +177,7 @@ export default class ProdutoCtrl {
                 );
             }
 
-        }
-        else {
+        } else {
             resposta.status(400).json({
                 "status": false,
                 "mensagem": "Requisição inválida! Consulte a documentação da API."
@@ -245,13 +210,12 @@ export default class ProdutoCtrl {
                     resposta.status(500).json(
                         {
                             "status": false,
-                            "mensagem": "Erro ao consultar produtos" + message.erro
+                            "mensagem": "Erro ao consultar produtos: " + erro.message
                         }
                     );
                 });
 
-        }
-        else {
+        } else {
             resposta.status(400).json(
                 {
                     "status": false,
@@ -260,5 +224,4 @@ export default class ProdutoCtrl {
             );
         }
     }
-
 }

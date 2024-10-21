@@ -2,14 +2,13 @@
 import Categoria from "../Modelo/categoria.js";
 
 export default class CategoriaCtrl {
-
     gravar(requisicao, resposta) {
         // Preparar o destinatário que a resposta estará no formato JSON
         resposta.type("application/json");
         // Verificando se o método da requisição é POST e conteúdo é JSON
         if (requisicao.method == 'POST' && requisicao.is("application/json")) {
             const descricao = requisicao.body.descricao;
-            //pseudo validação
+            // Pseudo-validação
             if (descricao) {
                 // Gravar a categoria
                 const categoria = new Categoria(0, descricao);
@@ -27,8 +26,7 @@ export default class CategoriaCtrl {
                             "mensagem": "Não foi possível incluir a categoria: " + erro.message
                         });
                     });
-            }
-            else {
+            } else {
                 resposta.status(400).json(
                     {
                         "status": false,
@@ -37,15 +35,12 @@ export default class CategoriaCtrl {
                 );
             }
 
-        }
-        else {
+        } else {
             resposta.status(400).json({
                 "status": false,
                 "mensagem": "Requisição inválida! Consulte a documentação da API."
             });
-
         }
-
     }
 
     editar(requisicao, resposta) {
@@ -73,8 +68,7 @@ export default class CategoriaCtrl {
                             "mensagem": "Não foi possível alterar a categoria: " + erro.message
                         });
                     });
-            }
-            else {
+            } else {
                 resposta.status(400).json(
                     {
                         "status": false,
@@ -82,8 +76,7 @@ export default class CategoriaCtrl {
                     }
                 );
             }
-        }
-        else {
+        } else {
             resposta.status(400).json({
                 "status": false,
                 "mensagem": "Requisição inválida! Consulte a documentação da API."
@@ -101,7 +94,7 @@ export default class CategoriaCtrl {
             const codigo = requisicao.params.codigo;
             // Pseudo-validação
             if (codigo > 0) {
-                // Alterar o categoria
+                //alterar o categoria
                 const categoria = new Categoria(codigo);
                 categoria.excluir()
                     .then(() => {
@@ -116,8 +109,7 @@ export default class CategoriaCtrl {
                             "mensagem": "Não foi possível excluir o categoria: " + erro.message
                         });
                     });
-            }
-            else {
+            } else {
                 resposta.status(400).json(
                     {
                         "status": false,
@@ -126,8 +118,7 @@ export default class CategoriaCtrl {
                 );
             }
 
-        }
-        else {
+        } else {
             resposta.status(400).json({
                 "status": false,
                 "mensagem": "Requisição inválida! Consulte a documentação da API."
@@ -160,13 +151,12 @@ export default class CategoriaCtrl {
                     resposta.status(500).json(
                         {
                             "status": false,
-                            "mensagem": "Erro ao consultar categorias" + erro.message
+                            "mensagem": "Erro ao consultar categorias:" + erro.message
                         }
                     );
                 });
 
-        }
-        else {
+        } else {
             resposta.status(400).json(
                 {
                     "status": false,
@@ -175,5 +165,4 @@ export default class CategoriaCtrl {
             );
         }
     }
-
 }
