@@ -12,6 +12,6 @@ rotaProduto.put("/:codigo", prodCtrl.editar);
 rotaProduto.patch("/:codigo", prodCtrl.editar);
 rotaProduto.delete("/:codigo", prodCtrl.excluir);
 rotaProduto.get("/:codigo", prodCtrl.consultar);
-rotaProduto.get("/",prodCtrl.consultar);
+rotaProduto.get("/", prodCtrl.consultar);
 
 export default rotaProduto;
