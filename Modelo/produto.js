@@ -10,7 +10,7 @@ export default class Produto {
     #qtdEstoque;
     #urlImagem;
     #dataValidade;
-    #categoria
+    #categoria;
 
     get codigo() {
         return this.#codigo;

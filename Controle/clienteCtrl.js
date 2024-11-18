@@ -1,39 +1,38 @@
-import Fornecedor from "../Modelo/fornecedor.js";
+import Cliente from "../Modelo/cliente.js";
 
-export default class FornecedorCtrl {
+export default class ClienteCtrl {
 
     gravar(requisicao, resposta) {
         // Preparar o destinatário que a resposta estará no formato JSON
         resposta.type("application/json");
         // Verificando se o método da requisição é POST e conteúdo é JSON
         if (requisicao.method == 'POST' && requisicao.is("application/json")) {
-            const razaoSocial = requisicao.body.razaoSocial;
-            const cnpj = requisicao.body.cnpj;
-            const telefone = requisicao.body.telefone;
+            const nome = requisicao.body.nome;
+            const cpf = requisicao.body.cpf;
             const endereco = requisicao.body.endereco;
             const numero = requisicao.body.numero;
             const bairro = requisicao.body.bairro;
             const cidade = requisicao.body.cidade;
             const uf = requisicao.body.uf;
             const cep = requisicao.body.cep;
+
             // Pseudo-validação
-            if (razaoSocial && cnpj &&
-                telefone && endereco &&
+            if (nome && cpf && endereco &&
                 numero > 0 && bairro && cidade && uf && cep) {
-                // Gravar o fornecedor
-                const fornecedor = new Fornecedor(0, razaoSocial, cnpj, telefone, endereco, numero, bairro, cidade, uf, cep);
-                fornecedor.incluir()
+                // Gravar o cliente
+                const cliente = new Cliente(0, nome, cpf, endereco, numero, bairro, cidade, uf, cep);
+                cliente.incluir()
                     .then(() => {
                         resposta.status(200).json({
                             "status": true,
-                            "mensagem": "Fornecedor adicionado com sucesso!",
-                            "codigo": fornecedor.codigo
+                            "mensagem": "Cliente adicionado com sucesso!",
+                            "codigo": cliente.codigo
                         });
                     })
                     .catch((erro) => {
                         resposta.status(500).json({
                             "status": false,
-                            "mensagem": "Não foi possível incluir o fornecedor: " + erro.message
+                            "mensagem": "Não foi possível incluir o cliente: " + erro.message
                         });
                     });
             }
@@ -41,7 +40,7 @@ export default class FornecedorCtrl {
                 resposta.status(400).json(
                     {
                         "status": false,
-                        "mensagem": "Informe corretamente todos os dados de um fornecedor conforme documentação da API."
+                        "mensagem": "Informe corretamente todos os dados de um cliente conforme documentação da API."
                     }
                 );
             }
@@ -59,9 +58,8 @@ export default class FornecedorCtrl {
         // Verificando se o método da requisição é POST e conteúdo é JSON
         if ((requisicao.method == 'PUT' || requisicao.method == 'PATCH') && requisicao.is("application/json")) {
             // O código será extraída da URL (padrão REST)
-            const razaoSocial = requisicao.body.razaoSocial;
-            const cnpj = requisicao.body.cnpj;
-            const telefone = requisicao.body.telefone;
+            const nome = requisicao.body.nome;
+            const cpf = requisicao.body.cpf;
             const endereco = requisicao.body.endereco;
             const numero = requisicao.body.numero;
             const bairro = requisicao.body.bairro;
@@ -69,29 +67,27 @@ export default class FornecedorCtrl {
             const uf = requisicao.body.uf;
             const cep = requisicao.body.cep;
             // Validação de regra de negócio
-            if (razaoSocial && cnpj &&
-                telefone && endereco &&
-                numero > 0 && bairro && cidade && uf && cep) {
-                // Alterar o fornecedor
-                const fornecedor = new Fornecedor(0, razaoSocial, cnpj, telefone, endereco, numero, bairro, cidade, uf, cep);
-                fornecedor.alterar()
+            if (nome && cpf && endereco && numero > 0 && bairro && cidade && uf && cep) {
+                // Alterar o cliente
+                const cliente = new Cliente(0, npme, cpf, endereco, numero, bairro, cidade, uf, cep);
+                cliente.alterar()
                     .then(() => {
                         resposta.status(200).json({
                             "status": true,
-                            "mensagem": "Fornecedor alterado com sucesso!",
+                            "mensagem": "Cliente alterado com sucesso!",
                         });
                     })
                     .catch((erro) => {
                         resposta.status(500).json({
                             "status": false,
-                            "mensagem": "Não foi possível alterar o fornecedor: " + erro.message
+                            "mensagem": "Não foi possível alterar o cliente: " + erro.message
                         });
                     });
             } else {
                 resposta.status(400).json(
                     {
                         "status": false,
-                        "mensagem": "Informe corretamente todos os dados de um fornecedor conforme documentação da API."
+                        "mensagem": "Informe corretamente todos os dados de um cliente conforme documentação da API."
                     }
                 );
             }
@@ -112,26 +108,26 @@ export default class FornecedorCtrl {
             const codigo = requisicao.params.codigo;
             // Pseudo-validação
             if (codigo > 0) {
-                // Alterar o fornecedor
-                const fornecedor = new Fornecedor(codigo);
-                fornecedor.excluir()
+                // Alterar o cliente
+                const cliente = new Cliente(codigo);
+                cliente.excluir()
                     .then(() => {
                         resposta.status(200).json({
                             "status": true,
-                            "mensagem": "Fornecedor excluído com sucesso!",
+                            "mensagem": "Cliente excluído com sucesso!",
                         });
                     })
                     .catch((erro) => {
                         resposta.status(500).json({
                             "status": false,
-                            "mensagem": "Não foi possível excluir o fornecedor: " + erro.message
+                            "mensagem": "Não foi possível excluir o cliente: " + erro.message
                         });
                     });
             } else {
                 resposta.status(400).json(
                     {
                         "status": false,
-                        "mensagem": "Informe um código válido de um fornecedor conforme documentação da API."
+                        "mensagem": "Informe um código válido de um cliente conforme documentação da API."
                     }
                 );
             }
@@ -153,18 +149,18 @@ export default class FornecedorCtrl {
             if (isNaN(codigo)) {
                 codigo = "";
             }
-            const fornecedor = new Fornecedor();
-            // Método consultar retorna uma lista de fornecedor
-            fornecedor.consultar(codigo)
-                .then((listaFornecedores) => {
-                    resposta.status(200).json(listaFornecedores
+            const cliente = new Cliente();
+            // Método consultar retorna uma lista de usuário
+            cliente.consultar(codigo)
+                .then((listaClientes) => {
+                    resposta.status(200).json(listaClientes
                     );
                 })
                 .catch((erro) => {
                     resposta.status(500).json(
                         {
                             "status": false,
-                            "mensagem": "Erro ao consultar fornecedores: " + erro.message
+                            "mensagem": "Erro ao consultar clientes: " + erro.message
                         }
                     );
                 });
