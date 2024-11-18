@@ -21,7 +21,7 @@ export default class FornecedorDAO {
                 forn_bairro VARCHAR(50) NOT NULL,
                 forn_cidade VARCHAR(50) NOT NULL,
                 forn_uf VARCHAR(50) NOT NULL,
-                forn_cep VARCHAR(50) NOT NULL,,
+                forn_cep VARCHAR(50) NOT NULL,
                 CONSTRAINT pk_fornecedor PRIMARY KEY(forn_codigo)
             );
         `;
