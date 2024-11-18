@@ -11,7 +11,7 @@ export default class FornecedorDAO {
         try {
             const conexao = await conectar(); // Retorna uma conexão
             const sql = `
-            CREATE TABLE IF NOT EXISTS produto(
+            CREATE TABLE IF NOT EXISTS fornecedor(
                 forn_codigo INT NOT NULL AUTO_INCREMENT,
                 forn_razaoSocial VARCHAR(200) NOT NULL,
                 forn_cnpj VARCHAR(18) NOT NULL,
@@ -117,7 +117,7 @@ export default class FornecedorDAO {
             const sql = `DELETE FROM fornecedor WHERE forn_codigo = ?`;
             let parametros = [
                 fornecedor.codigo
-            ]; // Dados do produto
+            ]; // Dados do fornecedor
             await conexao.execute(sql, parametros);
             await conexao.release(); // Libera a conexão
         }
