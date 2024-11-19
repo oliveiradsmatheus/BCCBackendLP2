@@ -15,7 +15,7 @@ export default class ProdutoCtrl {
             const precoVenda = requisicao.body.precoVenda;
             const qtdEstoque = requisicao.body.qtdEstoque;
             const urlImagem = requisicao.body.urlImagem;
-            const dataValidade = new Date(requisicao.body.dataValidade).toLocaleDateString();
+            const dataValidade = requisicao.body.dataValidade
             const categoria = requisicao.body.categoria;
             const fornecedor = requisicao.body.fornecedor;
             const categ = new Categoria(categoria.codigo);
@@ -102,7 +102,7 @@ export default class ProdutoCtrl {
             const precoVenda = requisicao.body.precoVenda;
             const qtdEstoque = requisicao.body.qtdEstoque;
             const urlImagem = requisicao.body.urlImagem;
-            const dataValidade = new Date(requisicao.body.dataValidade).toLocaleDateString();
+            const dataValidade = requisicao.body.dataValidade
             const categoria = requisicao.body.categoria;
             const fornecedor = requisicao.body.categoria;
             // Validação de regra de negócio
