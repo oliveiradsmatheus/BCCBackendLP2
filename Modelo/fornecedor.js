@@ -93,7 +93,7 @@ export default class Fornecedor {
         this.#cep = novoCep;
     }
 
-    // Construtor (criador de um produto)
+    // Construtor (criador de um fornecedor)
     constructor(codigo = 0, razaoSocial = "", cnpj = "", telefone = "", endereco = "",
         numero = 0, bairro = "", cidade = "", uf = "", cep = "") {
         this.#codigo = codigo;
@@ -109,7 +109,7 @@ export default class Fornecedor {
     }
 
     // Override do método toJSON
-    // O método toJSON é chamado automaticamente quando um produto
+    // O método toJSON é chamado automaticamente quando um fornecedor
     // Precisar ser convertido no formato JSON
     toJSON() {
         return {
@@ -127,7 +127,7 @@ export default class Fornecedor {
     }
 
     async incluir() {
-        // Instanciar a camada de persistencia do produto
+        // Instanciar a camada de persistencia do fornecedor
         const fornDAO = new FornecedorDAO();
         await fornDAO.incluir(this); // this referencia a si mesmo
     }

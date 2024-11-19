@@ -65,7 +65,7 @@ export default class ProdutoCtrl {
                     }).catch((erro) => {
                         resposta.status(500).json({
                             "status": false,
-                            "mensagem": "Não foi possível validar a categoria: " + erro.message
+                            "mensagem": "Não foi possível validar o fornecedor: " + erro.message
                         });
                     });
                 } else {

@@ -55,6 +55,7 @@ export default class UsuarioDAO {
             await conexao.release(); // Libera a conexão
         }
     }
+
     async alterar(usuario) {
         if (usuario instanceof Usuario) {
             const conexao = await conectar();
@@ -77,6 +78,7 @@ export default class UsuarioDAO {
             await conexao.release(); // Libera a conexão
         }
     }
+
     async consultar(termo) {
         // Recuperar as linhas da tabela usuário e transformá-las de volta em usuários
         const conexao = await conectar();
@@ -111,6 +113,7 @@ export default class UsuarioDAO {
         await conexao.release();
         return listaUsuarios;
     }
+    
     async excluir(usuario) {
         if (usuario instanceof Usuario) {
             const conexao = await conectar();

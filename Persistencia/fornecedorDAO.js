@@ -55,6 +55,7 @@ export default class FornecedorDAO {
             await conexao.release(); // Libera a conexão
         }
     }
+    
     async alterar(fornecedor) {
         if (fornecedor instanceof Fornecedor) {
             const conexao = await conectar();
@@ -77,6 +78,7 @@ export default class FornecedorDAO {
             await conexao.release(); // Libera a conexão
         }
     }
+
     async consultar(termo) {
         // Recuperar as linhas da tabela fornecedor e transformá-las de volta em fornecedores
         const conexao = await conectar();
@@ -111,6 +113,7 @@ export default class FornecedorDAO {
         await conexao.release();
         return listaFornecedores;
     }
+
     async excluir(fornecedor) {
         if (fornecedor instanceof Fornecedor) {
             const conexao = await conectar();

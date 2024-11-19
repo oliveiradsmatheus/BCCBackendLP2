@@ -73,7 +73,8 @@ export default class CategoriaDAO {
         await conexao.release();
         let listaCategoria = [];
         for (const registro of registros) {
-            const categoria = new Categoria(registro['cat_codigo'],
+            const categoria = new Categoria(
+                registro['cat_codigo'],
                 registro['cat_descricao']
             );
             listaCategoria.push(categoria);

@@ -53,6 +53,7 @@ export default class ClienteDAO {
             await conexao.release(); // Libera a conexão
         }
     }
+    
     async alterar(cliente) {
         if (cliente instanceof Cliente) {
             const conexao = await conectar();
@@ -74,6 +75,7 @@ export default class ClienteDAO {
             await conexao.release(); // Libera a conexão
         }
     }
+
     async consultar(termo) {
         // Recuperar as linhas da tabela cliente e transformá-las de volta em clientes
         const conexao = await conectar();
@@ -107,6 +109,7 @@ export default class ClienteDAO {
         await conexao.release();
         return listaClientes;
     }
+
     async excluir(cliente) {
         if (cliente instanceof Cliente) {
             const conexao = await conectar();

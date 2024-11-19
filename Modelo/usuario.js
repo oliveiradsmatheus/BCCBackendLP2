@@ -101,7 +101,7 @@ export default class Usuario {
         this.#senha = novaSenha;
     }
 
-    // Construtor (criador de um produto)
+    // Construtor (criador de um usuário)
     constructor(codigo = 0, login = "", nome = "", endereco = "", numero = 0, bairro = "",
         cidade = "", uf = "", cep = "", senha = "") {
         this.#codigo = codigo;
@@ -117,7 +117,7 @@ export default class Usuario {
     }
 
     // Override do método toJSON
-    // O método toJSON é chamado automaticamente quando um produto
+    // O método toJSON é chamado automaticamente quando um usuário
     // Precisar ser convertido no formato JSON
     toJSON() {
         return {
@@ -135,7 +135,7 @@ export default class Usuario {
     }
 
     async incluir() {
-        // Instanciar a camada de persistencia do produto
+        // Instanciar a camada de persistencia do usuário
         const usuDAO = new UsuarioDAO();
         await usuDAO.incluir(this); // this referencia a si mesmo
     }

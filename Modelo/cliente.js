@@ -84,7 +84,7 @@ export default class Cliente {
         this.#cep = novoCep;
     }
 
-    // Construtor (criador de um produto)
+    // Construtor (criador de um cliente)
     constructor(codigo = 0, nome = "", cpf = "", endereco = "", numero = 0,
         bairro = "", cidade = "", uf = "", cep = "") {
         this.#codigo = codigo;
@@ -99,7 +99,7 @@ export default class Cliente {
     }
 
     // Override do método toJSON
-    // O método toJSON é chamado automaticamente quando um produto
+    // O método toJSON é chamado automaticamente quando um cliente
     // Precisar ser convertido no formato JSON
     toJSON() {
         return {
@@ -116,7 +116,7 @@ export default class Cliente {
     }
 
     async incluir() {
-        // Instanciar a camada de persistencia do produto
+        // Instanciar a camada de persistencia do cliente
         const cliDAO = new ClienteDAO();
         await cliDAO.incluir(this); // this referencia a si mesmo
     }

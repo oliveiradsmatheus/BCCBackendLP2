@@ -58,6 +58,7 @@ export default class ProdutoDAO {
             await conexao.release(); // Libera a conexão
         }
     }
+
     async alterar(produto) {
         if (produto instanceof Produto) {
             const conexao = await conectar();
@@ -79,6 +80,7 @@ export default class ProdutoDAO {
             await conexao.release(); // Libera a conexão
         }
     }
+
     async consultar(termo) {
         // Recuperar as linhas da tabela produto e transformá-las de volta em produtos
         const conexao = await conectar();
@@ -124,7 +126,6 @@ export default class ProdutoDAO {
                 linha['prod_qtdEstoque'],
                 linha['prod_urlImagem'],
                 format(linha.prod_dataValidade, 'yyyy-MM-dd'),
-                //linha['prod_dataValidade'],
                 categoria,
                 fornecedor
             );
@@ -133,6 +134,7 @@ export default class ProdutoDAO {
         await conexao.release();
         return listaProdutos;
     }
+    
     async excluir(produto) {
         if (produto instanceof Produto) {
             const conexao = await conectar();
