@@ -20,10 +20,10 @@ export default class ProdutoCtrl {
             const fornecedor = requisicao.body.fornecedor;
             const categ = new Categoria(categoria.codigo);
             const fornec = new Fornecedor(fornecedor.codigo);
+            // Pseudo-validação
             categ.consultar(categoria.codigo).then((listaCategorias) => {
-                fornec.consultar(fornecedor.codigo).then((listaFornecedores) => {
-                    // Pseudo-validação
-                    if (listaCategorias.length > 0) {
+                if (listaCategorias.length > 0) {
+                    fornec.consultar(fornecedor.codigo).then((listaFornecedores) => {
                         if (listaFornecedores.length > 0) {
                             if (descricao && precoCusto > 0 &&
                                 precoVenda > 0 && qtdEstoque >= 0 &&
@@ -48,8 +48,7 @@ export default class ProdutoCtrl {
                                             "mensagem": "Não foi possível incluir o produto: " + erro.message
                                         });
                                     });
-                            }
-                            else {
+                            } else {
                                 resposta.status(400).json(
                                     {
                                         "status": false,
@@ -63,19 +62,18 @@ export default class ProdutoCtrl {
                                 "mensagem": "O fornecedor informado não existe!"
                             });
                         }
-                    }
-                    else {
-                        resposta.status(400).json({
+                    }).catch((erro) => {
+                        resposta.status(500).json({
                             "status": false,
-                            "mensagem": "A categoria informada não existe!"
+                            "mensagem": "Não foi possível validar a categoria: " + erro.message
                         });
-                    }
-                }).catch((erro) => {
-                    resposta.status(500).json({
-                        "status": false,
-                        "mensagem": "Não foi possível validar a categoria: " + erro.message
                     });
-                });
+                } else {
+                    resposta.status(400).json({
+                        "status": false,
+                        "mensagem": "A categoria informada não existe!"
+                    });
+                }
             }).catch((erro) => {
                 resposta.status(500).json({
                     "status": false,
@@ -115,7 +113,7 @@ export default class ProdutoCtrl {
                         if (listaFornec.length > 0) {
                             if (codigo > 0 && descricao && precoCusto > 0 &&
                                 precoVenda > 0 && qtdEstoque >= 0 &&
-                                urlImagem && dataValidade && categoria.codigo > 0 ) {
+                                urlImagem && dataValidade && categoria.codigo > 0) {
                                 // Alterar o produto
                                 const produto = new Produto(codigo,
                                     descricao, precoCusto, precoVenda,
