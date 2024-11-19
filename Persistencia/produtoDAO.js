@@ -1,6 +1,7 @@
 // DAO - Data Access Object
 import Produto from "../Modelo/produto.js";
 import Categoria from "../Modelo/categoria.js";
+import Fornecedor from "../Modelo/fornecedor.js";
 
 import conectar from "./Conexao.js";
 export default class ProdutoDAO {
