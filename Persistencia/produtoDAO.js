@@ -1,4 +1,5 @@
 // DAO - Data Access Object
+import { format } from 'date-fns';
 import Produto from "../Modelo/produto.js";
 import Categoria from "../Modelo/categoria.js";
 import Fornecedor from "../Modelo/fornecedor.js";
@@ -122,7 +123,8 @@ export default class ProdutoDAO {
                 linha['prod_precoVenda'],
                 linha['prod_qtdEstoque'],
                 linha['prod_urlImagem'],
-                linha['prod_dataValidade'],
+                format(linha.prod_dataValidade, 'yyyy-MM-dd'),
+                //linha['prod_dataValidade'],
                 categoria,
                 fornecedor
             );
