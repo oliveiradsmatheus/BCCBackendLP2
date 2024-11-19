@@ -21,8 +21,10 @@ export default class ProdutoDAO {
                 prod_urlImagem VARCHAR(250),
                 prod_dataValidade DATE NOT NULL,
                 fk_codigo_cat INT NOT NULL,
+                fk_codigo_forn INT NOT NULL,
                 CONSTRAINT pk_produto PRIMARY KEY(prod_codigo),
                 CONSTRAINT fk_categoria FOREIGN KEY(fk_codigo_cat) REFERENCES categoria(cat_codigo) 
+                CONSTRAINT fk_fornecedor FOREIGN KEY(fk_codigo_forn) REFERENCES fornecedor(cat_codigo) 
             );
         `;
             await conexao.execute(sql);
@@ -36,8 +38,8 @@ export default class ProdutoDAO {
     async incluir(produto) {
         if (produto instanceof Produto) {
             const conexao = await conectar();
-            const sql = `INSERT INTO produto(prod_descricao,prod_precoCusto,prod_precoVenda,prod_qtdEstoque,prod_urlImagem,prod_dataValidade, fk_codigo_cat)
-                values(?,?,?,?,?,str_to_date(?,'%d/%m/%Y'),?)
+            const sql = `INSERT INTO produto(prod_descricao,prod_precoCusto,prod_precoVenda,prod_qtdEstoque,prod_urlImagem,prod_dataValidade, fk_codigo_cat, fk_codigo_forn)
+                values(?,?,?,?,?,str_to_date(?,'%d/%m/%Y'),?,?)
             `;
             let parametros = [
                 produto.descricao,
@@ -46,7 +48,8 @@ export default class ProdutoDAO {
                 produto.qtdEstoque,
                 produto.urlImagem,
                 produto.dataValidade,
-                produto.categoria.codigo
+                produto.categoria.codigo,
+                produto.fornecedor.codigo
             ]; // Dados do produto
             const resultado = await conexao.execute(sql, parametros);
             produto.codigo = resultado[0].insertId;
@@ -56,7 +59,7 @@ export default class ProdutoDAO {
     async alterar(produto) {
         if (produto instanceof Produto) {
             const conexao = await conectar();
-            const sql = `UPDATE produto SET prod_descricao=?,prod_precoCusto=?,prod_precoVenda=?,prod_qtdEstoque=?,prod_urlImagem=?,prod_dataValidade=str_to_date(?,'%d/%m/%Y'), fk_codigo_cat = ?
+            const sql = `UPDATE produto SET prod_descricao=?,prod_precoCusto=?,prod_precoVenda=?,prod_qtdEstoque=?,prod_urlImagem=?,prod_dataValidade=str_to_date(?,'%d/%m/%Y'), fk_codigo_cat = ?, fk_codigo_forn = ?
                 WHERE prod_codigo = ?
             `;
             let parametros = [
@@ -67,6 +70,7 @@ export default class ProdutoDAO {
                 produto.urlImagem,
                 produto.dataValidade,
                 produto.categoria.codigo,
+                produto.fornecedor.codigo,
                 produto.codigo
             ]; // Dados do produto
             await conexao.execute(sql, parametros);
@@ -81,18 +85,35 @@ export default class ProdutoDAO {
         if (isNaN(parseInt(termo))) {
             sql = `SELECT * FROM produto p
                    INNER JOIN categoria c ON p.fk_codigo_cat = c.cat_codigo
+                   INNER JOIN fornecedor f ON p.fk_codigo_forn = f.forn_codigo
                    WHERE prod_descricao LIKE ?`;
             parametros = ['%' + termo + '%'];
         } else {
             sql = `SELECT * FROM produto p
                    INNER JOIN categoria c ON p.fk_codigo_cat = c.cat_codigo 
+                   INNER JOIN fornecedor f ON p.fk_codigo_forn = f.forn_codigo
                    WHERE prod_codigo = ?`
             parametros = [termo];
         }
         const [linhas, campos] = await conexao.execute(sql, parametros);
         let listaProdutos = [];
         for (const linha of linhas) {
-            const categoria = new Categoria(linha['cat_codigo'], linha["cat_descricao"]);
+            const categoria = new Categoria(
+                linha['cat_codigo'],
+                linha["cat_descricao"]
+            );
+            const fornecedor = new Fornecedor(
+                linha['forn_codigo'],
+                linha['forn_razaoSocial'],
+                linha['forn_cnpj'],
+                linha['forn_telefone'],
+                linha['forn_endereco'],
+                linha['forn_numero'],
+                linha['forn_bairro'],
+                linha['forn_cidade'],
+                linha['forn_uf'],
+                linha['forn_cep']
+            );
             const produto = new Produto(
                 linha['prod_codigo'],
                 linha['prod_descricao'],
@@ -101,7 +122,8 @@ export default class ProdutoDAO {
                 linha['prod_qtdEstoque'],
                 linha['prod_urlImagem'],
                 linha['prod_dataValidade'],
-                categoria
+                categoria,
+                fornecedor
             );
             listaProdutos.push(produto);
         }

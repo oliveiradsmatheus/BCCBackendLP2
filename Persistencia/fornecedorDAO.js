@@ -104,7 +104,7 @@ export default class FornecedorDAO {
                 linha['forn_bairro'],
                 linha['forn_cidade'],
                 linha['forn_uf'],
-                linha['forn_cep'],
+                linha['forn_cep']
             );
             listaFornecedores.push(fornecedor);
         }

@@ -1,6 +1,7 @@
 // É a classe responsável por traduzir requisições HTTP e produzir respostas HTTP
 import Produto from "../Modelo/produto.js";
 import Categoria from "../Modelo/categoria.js";
+import Fornecedor from "../Modelo/fornecedor.js";
 
 export default class ProdutoCtrl {
 
@@ -14,51 +15,67 @@ export default class ProdutoCtrl {
             const precoVenda = requisicao.body.precoVenda;
             const qtdEstoque = requisicao.body.qtdEstoque;
             const urlImagem = requisicao.body.urlImagem;
-            const dataValidade = new Date (requisicao.body.dataValidade).toLocaleDateString();
+            const dataValidade = new Date(requisicao.body.dataValidade).toLocaleDateString();
             const categoria = requisicao.body.categoria;
+            const fornecedor = requisicao.body.fornecedor;
             const categ = new Categoria(categoria.codigo);
+            const fornec = new Fornecedor(fornecedor.codigo);
             categ.consultar(categoria.codigo).then((listaCategorias) => {
-                if (listaCategorias.length > 0) {
+                fornec.consultar(fornecedor.codigo).then((listaFornecedores) => {
                     // Pseudo-validação
-                    if (descricao && precoCusto > 0 &&
-                        precoVenda > 0 && qtdEstoque >= 0 &&
-                        urlImagem && dataValidade && categoria.codigo > 0) {
-                        // Gravar o produto
+                    if (listaCategorias.length > 0) {
+                        if (listaFornecedores.length > 0) {
+                            if (descricao && precoCusto > 0 &&
+                                precoVenda > 0 && qtdEstoque >= 0 &&
+                                urlImagem && dataValidade && categoria.codigo > 0 && fornecedor.codigo > 0) {
+                                // Gravar o produto
 
-                        const produto = new Produto(0,
-                            descricao, precoCusto, precoVenda,
-                            qtdEstoque, urlImagem, dataValidade, categ);
+                                const produto = new Produto(0,
+                                    descricao, precoCusto, precoVenda,
+                                    qtdEstoque, urlImagem, dataValidade, categ, fornec);
 
-                        produto.incluir()
-                            .then(() => {
-                                resposta.status(200).json({
-                                    "status": true,
-                                    "mensagem": "Produto adicionado com sucesso!",
-                                    "codigo": produto.codigo
-                                });
-                            })
-                            .catch((erro) => {
-                                resposta.status(500).json({
-                                    "status": false,
-                                    "mensagem": "Não foi possível incluir o produto: " + erro.message
-                                });
+                                produto.incluir()
+                                    .then(() => {
+                                        resposta.status(200).json({
+                                            "status": true,
+                                            "mensagem": "Produto adicionado com sucesso!",
+                                            "codigo": produto.codigo
+                                        });
+                                    })
+                                    .catch((erro) => {
+                                        resposta.status(500).json({
+                                            "status": false,
+                                            "mensagem": "Não foi possível incluir o produto: " + erro.message
+                                        });
+                                    });
+                            }
+                            else {
+                                resposta.status(400).json(
+                                    {
+                                        "status": false,
+                                        "mensagem": "Informe corretamente todos os dados de um produto conforme documentação da API."
+                                    }
+                                );
+                            }
+                        } else {
+                            resposta.status(400).json({
+                                "status": false,
+                                "mensagem": "O fornecedor informado não existe!"
                             });
+                        }
                     }
                     else {
-                        resposta.status(400).json(
-                            {
-                                "status": false,
-                                "mensagem": "Informe corretamente todos os dados de um produto conforme documentação da API."
-                            }
-                        );
+                        resposta.status(400).json({
+                            "status": false,
+                            "mensagem": "A categoria informada não existe!"
+                        });
                     }
-                }
-                else {
-                    resposta.status(400).json({
+                }).catch((erro) => {
+                    resposta.status(500).json({
                         "status": false,
-                        "mensagem": "A categoria informada não existe!"
+                        "mensagem": "Não foi possível validar a categoria: " + erro.message
                     });
-                }
+                });
             }).catch((erro) => {
                 resposta.status(500).json({
                     "status": false,
@@ -85,62 +102,75 @@ export default class ProdutoCtrl {
             const precoVenda = requisicao.body.precoVenda;
             const qtdEstoque = requisicao.body.qtdEstoque;
             const urlImagem = requisicao.body.urlImagem;
-            const dataValidade = new Date (requisicao.body.dataValidade).toLocaleDateString();
+            const dataValidade = new Date(requisicao.body.dataValidade).toLocaleDateString();
             const categoria = requisicao.body.categoria;
+            const fornecedor = requisicao.body.categoria;
             // Validação de regra de negócio
             const categ = new Categoria(categoria.codigo);
-            categ.consultar(categoria.codigo).then((lista) => {
-                if (lista.length > 0) {
+            const fornec = new Fornecedor(fornecedor.codigo);
+            categ.consultar(categoria.codigo).then((listaCateg) => {
+                fornec.consultar(fornecedor.codigo).then((listaFornec) => {
                     // Pseudo-validação
-                    if (codigo > 0 && descricao && precoCusto > 0 &&
-                        precoVenda > 0 && qtdEstoque >= 0 &&
-                        urlImagem && dataValidade && categoria.codigo > 0) {
-                        // Alterar o produto
-                        const produto = new Produto(codigo,
-                            descricao, precoCusto, precoVenda,
-                            qtdEstoque, urlImagem, dataValidade, categ);
-                        produto.alterar()
-                            .then(() => {
-                                resposta.status(200).json({
-                                    "status": true,
-                                    "mensagem": "Produto alterado com sucesso!",
-                                });
-                            })
-                            .catch((erro) => {
-                                resposta.status(500).json({
-                                    "status": false,
-                                    "mensagem": "Não foi possível alterar o produto: " + erro.message
-                                });
-                            });
-                    } else {
-                        resposta.status(400).json(
-                            {
-                                "status": false,
-                                "mensagem": "Informe corretamente todos os dados de um produto conforme documentação da API."
+                    if (listaCateg.length > 0) {
+                        if (listaFornec.length > 0) {
+                            if (codigo > 0 && descricao && precoCusto > 0 &&
+                                precoVenda > 0 && qtdEstoque >= 0 &&
+                                urlImagem && dataValidade && categoria.codigo > 0 ) {
+                                // Alterar o produto
+                                const produto = new Produto(codigo,
+                                    descricao, precoCusto, precoVenda,
+                                    qtdEstoque, urlImagem, dataValidade, categ, fornec);
+                                produto.alterar()
+                                    .then(() => {
+                                        resposta.status(200).json({
+                                            "status": true,
+                                            "mensagem": "Produto alterado com sucesso!",
+                                        });
+                                    })
+                                    .catch((erro) => {
+                                        resposta.status(500).json({
+                                            "status": false,
+                                            "mensagem": "Não foi possível alterar o produto: " + erro.message
+                                        });
+                                    });
+                            } else {
+                                resposta.status(400).json(
+                                    {
+                                        "status": false,
+                                        "mensagem": "Informe corretamente todos os dados de um produto conforme documentação da API."
+                                    }
+                                );
                             }
-                        );
+                        } else {
+                            resposta.status(400).json({
+                                "status": false,
+                                "mensagem": "O fornecedor informado não existe!"
+                            });
+
+                        }
+                    } else {
+                        resposta.status(400).json({
+                            "status": false,
+                            "mensagem": "A categoria informada não existe!"
+                        });
                     }
-
-                } else {
-                    resposta.status(400).json({
+                }).catch((erro) => {
+                    resposta.status(500).json({
                         "status": false,
-                        "mensagem": "A categoria informada não existe!"
+                        "mensagem": "Não foi possível validar a categoria: " + erro.message
                     });
-                }
-
+                });
             }).catch((erro) => {
                 resposta.status(500).json({
                     "status": false,
                     "mensagem": "Não foi possível validar a categoria: " + erro.message
                 });
             });
-
         } else {
             resposta.status(400).json({
                 "status": false,
                 "mensagem": "Requisição inválida! Consulte a documentação da API."
             });
-
         }
     }
 
