@@ -70,7 +70,7 @@ export default class UsuarioCtrl {
             const uf = requisicao.body.uf;
             const cep = requisicao.body.cep;
             // Validação de regra de negócio
-            if (login && nome &&
+            if (codigo > 0 && login && nome &&
                 senha && endereco &&
                 numero > 0 && bairro && cidade && uf && cep) {
                 // Alterar o usuário

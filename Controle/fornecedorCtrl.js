@@ -70,7 +70,7 @@ export default class FornecedorCtrl {
             const uf = requisicao.body.uf;
             const cep = requisicao.body.cep;
             // Validação de regra de negócio
-            if (razaoSocial && cnpj &&
+            if (codigo > 0 && razaoSocial && cnpj &&
                 telefone && endereco &&
                 numero > 0 && bairro && cidade && uf && cep) {
                 // Alterar o fornecedor

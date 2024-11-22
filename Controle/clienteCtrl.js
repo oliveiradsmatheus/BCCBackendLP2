@@ -67,9 +67,9 @@ export default class ClienteCtrl {
             const uf = requisicao.body.uf;
             const cep = requisicao.body.cep;
             // Validação de regra de negócio
-            if (nome && cpf && endereco && numero > 0 && bairro && cidade && uf && cep) {
+            if (codigo > 0 && nome && cpf && endereco && numero > 0 && bairro && cidade && uf && cep) {
                 // Alterar o cliente
-                const cliente = new Cliente(codigo, npme, cpf, endereco, numero, bairro, cidade, uf, cep);
+                const cliente = new Cliente(codigo, nome, cpf, endereco, numero, bairro, cidade, uf, cep);
                 cliente.alterar()
                     .then(() => {
                         resposta.status(200).json({
