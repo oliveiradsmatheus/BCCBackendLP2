@@ -59,6 +59,7 @@ export default class FornecedorCtrl {
         // Verificando se o método da requisição é POST e conteúdo é JSON
         if ((requisicao.method == 'PUT' || requisicao.method == 'PATCH') && requisicao.is("application/json")) {
             // O código será extraída da URL (padrão REST)
+            const codigo = requisicao.params.codigo;
             const razaoSocial = requisicao.body.razaoSocial;
             const cnpj = requisicao.body.cnpj;
             const telefone = requisicao.body.telefone;

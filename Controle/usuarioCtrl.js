@@ -59,6 +59,7 @@ export default class UsuarioCtrl {
         // Verificando se o método da requisição é POST e conteúdo é JSON
         if ((requisicao.method == 'PUT' || requisicao.method == 'PATCH') && requisicao.is("application/json")) {
             // O código será extraída da URL (padrão REST)
+            const codigo = requisicao.params.codigo;
             const nome = requisicao.body.nome;
             const login = requisicao.body.login;
             const senha = requisicao.body.senha;

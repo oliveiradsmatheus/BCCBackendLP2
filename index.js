@@ -35,10 +35,10 @@ app.use(express.static('./publico'));
 
 
 app.use("/categorias", rotaCategoria);
-//app.use('/clientes',rotaCliente);
+app.use("/clientes",rotaCliente);
 app.use("/fornecedores", rotaFornecedor);
 app.use("/produtos", rotaProduto);
-app.use('/usuarios', rotaUsuario);
+app.use("/usuarios", rotaUsuario);
 
 /*app.get('/', (requisicao, resposta) => {
     resposta.send('<h1>Página principal</h1>');
