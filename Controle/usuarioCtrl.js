@@ -7,8 +7,8 @@ export default class UsuarioCtrl {
         resposta.type("application/json");
         // Verificando se o método da requisição é POST e conteúdo é JSON
         if (requisicao.method == 'POST' && requisicao.is("application/json")) {
-            const login = requisicao.body.login;
             const nome = requisicao.body.nome;
+            const login = requisicao.body.login;
             const senha = requisicao.body.senha;
             const endereco = requisicao.body.endereco;
             const numero = requisicao.body.numero;
@@ -59,8 +59,8 @@ export default class UsuarioCtrl {
         // Verificando se o método da requisição é POST e conteúdo é JSON
         if ((requisicao.method == 'PUT' || requisicao.method == 'PATCH') && requisicao.is("application/json")) {
             // O código será extraída da URL (padrão REST)
-            const login = requisicao.body.login;
             const nome = requisicao.body.nome;
+            const login = requisicao.body.login;
             const senha = requisicao.body.senha;
             const endereco = requisicao.body.endereco;
             const numero = requisicao.body.numero;

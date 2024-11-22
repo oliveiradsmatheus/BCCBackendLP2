@@ -13,8 +13,8 @@ export default class UsuarioDAO {
             const sql = `
             CREATE TABLE IF NOT EXISTS usuario(
                 usu_codigo INT NOT NULL AUTO_INCREMENT,
-                usu_login VARCHAR(20) NOT NULL,
                 usu_nome VARCHAR(100) NOT NULL,
+                usu_login VARCHAR(20) NOT NULL,
                 usu_senha VARCHAR(30) NOT NULL,
                 usu_endereco VARCHAR(50) NOT NULL,
                 usu_numero INT NOT NULL,
@@ -40,8 +40,8 @@ export default class UsuarioDAO {
                 values(?,?,?,?,?,?,?,?,?)
             `;
             let parametros = [
-                usuario.login,
                 usuario.nome,
+                usuario.login,
                 usuario.senha,
                 usuario.endereco,
                 usuario.numero,

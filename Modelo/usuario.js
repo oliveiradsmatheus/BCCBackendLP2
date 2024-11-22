@@ -3,15 +3,15 @@ import UsuarioDAO from "../Persistencia/usuarioDAO.js";
 export default class Usuario {
     // Atributos privados
     #codigo;
-    #login;
     #nome;
+    #login;
+    #senha;
     #endereco;
     #numero;
     #bairro;
     #cidade;
     #uf;
     #cep;
-    #senha;
 
     get codigo() {
         return this.#codigo;
@@ -105,15 +105,15 @@ export default class Usuario {
     constructor(codigo = 0, login = "", nome = "", endereco = "", numero = 0, bairro = "",
         cidade = "", uf = "", cep = "", senha = "") {
         this.#codigo = codigo;
-        this.#login = login;
         this.#nome = nome;
+        this.#login = login;
+        this.#senha = senha;
         this.#endereco = endereco;
         this.#numero = numero;
         this.#bairro = bairro;
         this.#cidade = cidade;
         this.#uf = uf;
         this.#cep = cep;
-        this.#senha = senha;
     }
 
     // Override do método toJSON
@@ -122,9 +122,9 @@ export default class Usuario {
     toJSON() {
         return {
             "codigo": this.#codigo,
+            "nome": this.#nome,
             "login": this.#login,
             "senha": this.#senha,
-            "nome": this.#nome,
             "endereco": this.#endereco,
             "numero": this.#numero,
             "bairro": this.#bairro,
