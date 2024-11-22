@@ -35,7 +35,7 @@ export default class ClienteDAO {
     async incluir(cliente) {
         if (cliente instanceof Cliente) {
             const conexao = await conectar();
-            const sql = `INSERT INTO cliente(cli_nome,cli_cpf,cli_endereco,cli_numero,cli_bairro, cli_cidade,cli_uf,cli_cep)
+            const sql = `INSERT INTO cliente(cli_nome, cli_cpf, cli_endereco, cli_numero, cli_bairro, cli_cidade, cli_uf, cli_cep)
                 values(?,?,?,?,?,?,?,?)
             `;
             let parametros = [
@@ -53,13 +53,11 @@ export default class ClienteDAO {
             await conexao.release(); // Libera a conexão
         }
     }
-    
+
     async alterar(cliente) {
         if (cliente instanceof Cliente) {
             const conexao = await conectar();
-            const sql = `UPDATE cliente SET cli_nome=?,cli_cpf=?,cli_endereco=?,cli_numero=?,cli_bairro=?, cli_uf=?, cli_cep=?, 
-                WHERE cli_codigo = ?
-            `;
+            const sql = `UPDATE cliente SET cli_nome=?, cli_cpf=?, cli_endereco=?, cli_numero=?, cli_bairro=?, cli_uf=?, cli_cep=? WHERE cli_codigo = ?`;
             let parametros = [
                 cliente.nome,
                 cliente.cpf,
