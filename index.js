@@ -8,6 +8,7 @@
 import express from 'express';
 import rotaCategoria from './Rotas/rotaCategorias.js';
 import rotaFornecedor from './Rotas/rotaFornecedores.js';
+import rotaCliente from './Rotas/rotaClientes.js';
 import rotaProduto from './Rotas/rotaProdutos.js';
 import rotaUsuario from './Rotas/rotaUsuarios.js';
 import cors from 'cors';
