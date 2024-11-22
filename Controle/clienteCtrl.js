@@ -37,11 +37,10 @@ export default class ClienteCtrl {
                     });
             }
             else {
-                resposta.status(400).json(
-                    {
-                        "status": false,
-                        "mensagem": "Informe corretamente todos os dados de um cliente conforme documentação da API."
-                    }
+                resposta.status(400).json({
+                    "status": false,
+                    "mensagem": "Informe corretamente todos os dados de um cliente conforme documentação da API."
+                }
                 );
             }
         } else {
@@ -70,7 +69,7 @@ export default class ClienteCtrl {
             // Validação de regra de negócio
             if (nome && cpf && endereco && numero > 0 && bairro && cidade && uf && cep) {
                 // Alterar o cliente
-                const cliente = new Cliente(0, npme, cpf, endereco, numero, bairro, cidade, uf, cep);
+                const cliente = new Cliente(codigo, npme, cpf, endereco, numero, bairro, cidade, uf, cep);
                 cliente.alterar()
                     .then(() => {
                         resposta.status(200).json({
@@ -85,11 +84,10 @@ export default class ClienteCtrl {
                         });
                     });
             } else {
-                resposta.status(400).json(
-                    {
-                        "status": false,
-                        "mensagem": "Informe corretamente todos os dados de um cliente conforme documentação da API."
-                    }
+                resposta.status(400).json({
+                    "status": false,
+                    "mensagem": "Informe corretamente todos os dados de um cliente conforme documentação da API."
+                }
                 );
             }
         } else {
@@ -125,11 +123,10 @@ export default class ClienteCtrl {
                         });
                     });
             } else {
-                resposta.status(400).json(
-                    {
-                        "status": false,
-                        "mensagem": "Informe um código válido de um cliente conforme documentação da API."
-                    }
+                resposta.status(400).json({
+                    "status": false,
+                    "mensagem": "Informe um código válido de um cliente conforme documentação da API."
+                }
                 );
             }
 
@@ -158,20 +155,18 @@ export default class ClienteCtrl {
                     );
                 })
                 .catch((erro) => {
-                    resposta.status(500).json(
-                        {
-                            "status": false,
-                            "mensagem": "Erro ao consultar clientes: " + erro.message
-                        }
+                    resposta.status(500).json({
+                        "status": false,
+                        "mensagem": "Erro ao consultar clientes: " + erro.message
+                    }
                     );
                 });
 
         } else {
-            resposta.status(400).json(
-                {
-                    "status": false,
-                    "mensagem": "Requisição inválida! Consulte a documentação da API."
-                }
+            resposta.status(400).json({
+                "status": false,
+                "mensagem": "Requisição inválida! Consulte a documentação da API."
+            }
             );
         }
     }

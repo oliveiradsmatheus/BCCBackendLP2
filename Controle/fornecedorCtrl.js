@@ -74,7 +74,7 @@ export default class FornecedorCtrl {
                 telefone && endereco &&
                 numero > 0 && bairro && cidade && uf && cep) {
                 // Alterar o fornecedor
-                const fornecedor = new Fornecedor(0, razaoSocial, cnpj, telefone, endereco, numero, bairro, cidade, uf, cep);
+                const fornecedor = new Fornecedor(codigo, razaoSocial, cnpj, telefone, endereco, numero, bairro, cidade, uf, cep);
                 fornecedor.alterar()
                     .then(() => {
                         resposta.status(200).json({
