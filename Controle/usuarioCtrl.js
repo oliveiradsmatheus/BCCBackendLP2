@@ -74,7 +74,7 @@ export default class UsuarioCtrl {
                 senha && endereco &&
                 numero > 0 && bairro && cidade && uf && cep) {
                 // Alterar o usuário
-                const usuario = new Usuario(0, login, nome, senha, endereco, numero, bairro, cidade, uf, cep);
+                const usuario = new Usuario(codigo, login, nome, senha, endereco, numero, bairro, cidade, uf, cep);
                 usuario.alterar()
                     .then(() => {
                         resposta.status(200).json({
