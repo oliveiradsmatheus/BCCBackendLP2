@@ -111,7 +111,7 @@ export default class Cliente {
             "bairro": this.#bairro,
             "cidade": this.#cidade,
             "uf": this.#uf,
-            "cidade": this.#cidade
+            "cep": this.#cep
         }
     }
 
