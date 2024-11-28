@@ -22,14 +22,12 @@ export default class ProdutoCtrl {
             const fornec = new Fornecedor(fornecedor.codigo);
             // Pseudo-validação
             categ.consultar(categoria.codigo).then((listaCategorias) => {
-                if (listaCategorias > 0) {
+                if (listaCategorias.length > 0) {
                     fornec.consultar(fornecedor.codigo).then((listaFornecedores) => {
-                        if (listaFornecedores > 0) {
+                        if (listaFornecedores.length > 0) {
                             if (descricao && precoCusto > 0 &&
                                 precoVenda > 0 && qtdEstoque >= 0 &&
                                 urlImagem && dataValidade && categoria.codigo > 0 && fornecedor.codigo > 0) {
-                                // Gravar o produto
-
                                 const produto = new Produto(0,
                                     descricao, precoCusto, precoVenda,
                                     qtdEstoque, urlImagem, dataValidade, categ, fornec);
