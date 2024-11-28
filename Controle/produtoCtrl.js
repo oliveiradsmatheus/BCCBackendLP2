@@ -103,11 +103,10 @@ export default class ProdutoCtrl {
             // Validação de regra de negócio
             const categ = new Categoria(categoria.codigo);
             const fornec = new Fornecedor(fornecedor.codigo);
-            categ.consultar(categoria.codigo).then((listaCateg) => {
-                fornec.consultar(fornecedor.codigo).then((listaFornec) => {
-                    // Pseudo-validação
-                    if (listaCateg.length > 0) {
-                        if (listaFornec.length > 0) {
+            categ.consultar(categoria.codigo).then((listaCategoria) => {
+                if (listaCategoria.length > 0) {
+                    fornec.consultar(fornecedor.codigo).then((listaFornecedores) => {
+                        if (listaFornecedores.length > 0) {
                             if (codigo > 0 && descricao && precoCusto > 0 &&
                                 precoVenda > 0 && qtdEstoque >= 0 &&
                                 urlImagem && dataValidade && categoria.codigo > 0) {
@@ -143,18 +142,18 @@ export default class ProdutoCtrl {
                             });
 
                         }
-                    } else {
-                        resposta.status(400).json({
+                    }).catch((erro) => {
+                        resposta.status(500).json({
                             "status": false,
-                            "mensagem": "A categoria informada não existe!"
+                            "mensagem": "Não foi possível validar a categoria: " + erro.message
                         });
-                    }
-                }).catch((erro) => {
-                    resposta.status(500).json({
-                        "status": false,
-                        "mensagem": "Não foi possível validar a categoria: " + erro.message
                     });
-                });
+                } else {
+                    resposta.status(400).json({
+                        "status": false,
+                        "mensagem": "A categoria informada não existe!"
+                    });
+                }
             }).catch((erro) => {
                 resposta.status(500).json({
                     "status": false,
@@ -219,17 +218,11 @@ export default class ProdutoCtrl {
             if (isNaN(codigo)) {
                 codigo = "";
             }
-
             const produto = new Produto();
             // Método consultar retorna uma lista de produtos
             produto.consultar(codigo)
                 .then((listaProdutos) => {
-                    resposta.status(200).json(listaProdutos
-                        /*{
-                            "status": true,
-                            "listaProdutos": listaProdutos
-                        }*/
-                    );
+                    resposta.status(200).json(listaProdutos);
                 })
                 .catch((erro) => {
                     resposta.status(500).json(
