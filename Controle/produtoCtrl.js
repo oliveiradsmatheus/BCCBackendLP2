@@ -99,7 +99,7 @@ export default class ProdutoCtrl {
             const urlImagem = requisicao.body.urlImagem;
             const dataValidade = requisicao.body.dataValidade
             const categoria = requisicao.body.categoria;
-            const fornecedor = requisicao.body.categoria;
+            const fornecedor = requisicao.body.fornecedor;
             // Validação de regra de negócio
             const categ = new Categoria(categoria.codigo);
             const fornec = new Fornecedor(fornecedor.codigo);
@@ -109,7 +109,7 @@ export default class ProdutoCtrl {
                         if (listaFornecedores.length > 0) {
                             if (codigo > 0 && descricao && precoCusto > 0 &&
                                 precoVenda > 0 && qtdEstoque >= 0 &&
-                                urlImagem && dataValidade && categoria.codigo > 0) {
+                                urlImagem && dataValidade && categoria.codigo > 0 && fornecedor.codigo > 0) {
                                 // Alterar o produto
                                 const produto = new Produto(codigo,
                                     descricao, precoCusto, precoVenda,
