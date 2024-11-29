@@ -102,8 +102,8 @@ export default class Usuario {
     }
 
     // Construtor (criador de um usuário)
-    constructor(codigo = 0, login = "", nome = "", endereco = "", numero = 0, bairro = "",
-        cidade = "", uf = "", cep = "", senha = "") {
+    constructor(codigo = 0, nome = "", login = "", senha = "", endereco = "", numero = 0, bairro = "",
+        cidade = "", uf = "", cep = "") {
         this.#codigo = codigo;
         this.#nome = nome;
         this.#login = login;
