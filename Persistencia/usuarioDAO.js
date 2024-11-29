@@ -22,6 +22,7 @@ export default class UsuarioDAO {
                 usu_cidade VARCHAR(50) NOT NULL,
                 usu_uf VARCHAR(50) NOT NULL,
                 usu_cep VARCHAR(50) NOT NULL,
+                usu_tipo INT NOT NULL,
                 CONSTRAINT pk_usuario PRIMARY KEY(usu_codigo)
             );
         `;
@@ -36,8 +37,8 @@ export default class UsuarioDAO {
     async incluir(usuario) {
         if (usuario instanceof Usuario) {
             const conexao = await conectar();
-            const sql = `INSERT INTO usuario(usu_nome,usu_login,usu_senha,usu_endereco,usu_numero,usu_bairro,usu_cidade,usu_uf,usu_cep)
-                values(?,?,?,?,?,?,?,?,?)
+            const sql = `INSERT INTO usuario(usu_nome,usu_login,usu_senha,usu_endereco,usu_numero,usu_bairro,usu_cidade,usu_uf,usu_cep,usu_tipo)
+                values(?,?,?,?,?,?,?,?,?,?)
             `;
             let parametros = [
                 usuario.nome,
@@ -49,6 +50,7 @@ export default class UsuarioDAO {
                 usuario.cidade,
                 usuario.uf,
                 usuario.cep,
+                usuario.tipo
             ]; // Dados do usuário
             const resultado = await conexao.execute(sql, parametros);
             usuario.codigo = resultado[0].insertId;
@@ -59,7 +61,7 @@ export default class UsuarioDAO {
     async alterar(usuario) {
         if (usuario instanceof Usuario) {
             const conexao = await conectar();
-            const sql = `UPDATE usuario SET usu_nome=?,usu_login=?,usu_senha=?,usu_endereco=?,usu_numero=?,usu_bairro=?, usu_cidade =?, usu_uf=?, usu_cep=? WHERE usu_codigo = ?`;
+            const sql = `UPDATE usuario SET usu_nome=?,usu_login=?,usu_senha=?,usu_endereco=?,usu_numero=?,usu_bairro=?, usu_cidade =?, usu_uf=?, usu_cep=?, usu_tipo=? WHERE usu_codigo = ?`;
             let parametros = [
                 usuario.nome,
                 usuario.login,
@@ -70,7 +72,8 @@ export default class UsuarioDAO {
                 usuario.cidade,
                 usuario.uf,
                 usuario.cep,
-                usuario.codigo
+                usuario.codigo,
+                usuario.tipo
             ]; // Dados do usuário
             await conexao.execute(sql, parametros);
             await conexao.release(); // Libera a conexão
@@ -105,6 +108,7 @@ export default class UsuarioDAO {
                 linha['usu_cidade'],
                 linha['usu_uf'],
                 linha['usu_cep'],
+                linha['usu_tipo']
             );
             listaUsuarios.push(usuario);
         }

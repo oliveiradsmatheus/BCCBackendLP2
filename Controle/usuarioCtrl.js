@@ -16,12 +16,13 @@ export default class UsuarioCtrl {
             const cidade = requisicao.body.cidade;
             const uf = requisicao.body.uf;
             const cep = requisicao.body.cep;
+            const tipo = requisicao.body.tipo;
 
             // Pseudo-validação
             if (nome && login && senha && endereco &&
-                numero > 0 && bairro && cidade && uf && cep) {
+                numero > 0 && bairro && cidade && uf && cep && tipo) {
                 // Gravar o usuário
-                const usuario = new Usuario(0, nome, login, senha, endereco, numero, bairro, cidade, uf, cep);
+                const usuario = new Usuario(0, nome, login, senha, endereco, numero, bairro, cidade, uf, cep, tipo);
                 usuario.incluir()
                     .then(() => {
                         resposta.status(200).json({
@@ -69,12 +70,13 @@ export default class UsuarioCtrl {
             const cidade = requisicao.body.cidade;
             const uf = requisicao.body.uf;
             const cep = requisicao.body.cep;
+            const tipo = requisicao.body.tipo;
             // Validação de regra de negócio
             if (codigo > 0 && nome && login &&
                 senha && endereco &&
-                numero > 0 && bairro && cidade && uf && cep) {
+                numero > 0 && bairro && cidade && uf && cep && tipo) {
                 // Alterar o usuário
-                const usuario = new Usuario(codigo, nome, login, senha, endereco, numero, bairro, cidade, uf, cep);
+                const usuario = new Usuario(codigo, nome, login, senha, endereco, numero, bairro, cidade, uf, cep, tipo);
                 usuario.alterar()
                     .then(() => {
                         resposta.status(200).json({

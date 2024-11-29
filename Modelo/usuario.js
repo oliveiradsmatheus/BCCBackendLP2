@@ -12,6 +12,7 @@ export default class Usuario {
     #cidade;
     #uf;
     #cep;
+    #tipo;
 
     get codigo() {
         return this.#codigo;
@@ -101,9 +102,17 @@ export default class Usuario {
         this.#senha = novaSenha;
     }
 
+    get tipo() {
+        return this.#tipo;
+    }
+
+    set tipo(novoTipo) {
+        this.#tipo = novoTipo;
+    }
+
     // Construtor (criador de um usuário)
     constructor(codigo = 0, nome = "", login = "", senha = "", endereco = "", numero = 0, bairro = "",
-        cidade = "", uf = "", cep = "") {
+        cidade = "", uf = "", cep = "", tipo ="") {
         this.#codigo = codigo;
         this.#nome = nome;
         this.#login = login;
@@ -114,6 +123,7 @@ export default class Usuario {
         this.#cidade = cidade;
         this.#uf = uf;
         this.#cep = cep;
+        this.#tipo = tipo;
     }
 
     // Override do método toJSON
@@ -130,7 +140,8 @@ export default class Usuario {
             "bairro": this.#bairro,
             "cidade": this.#cidade,
             "uf": this.#uf,
-            "cep": this.#cep
+            "cep": this.#cep,
+            "tipo":this.#tipo
         }
     }
 
