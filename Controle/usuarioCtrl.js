@@ -20,7 +20,7 @@ export default class UsuarioCtrl {
 
             // Pseudo-validação
             if (nome && login && senha && endereco &&
-                numero > 0 && bairro && cidade && uf && cep && tipo) {
+                numero > 0 && bairro && cidade && uf && cep && (tipo == 0 || tipo == 1)) {
                 // Gravar o usuário
                 const usuario = new Usuario(0, nome, login, senha, endereco, numero, bairro, cidade, uf, cep, tipo);
                 usuario.incluir()
@@ -74,7 +74,7 @@ export default class UsuarioCtrl {
             // Validação de regra de negócio
             if (codigo > 0 && nome && login &&
                 senha && endereco &&
-                numero > 0 && bairro && cidade && uf && cep && tipo) {
+                numero > 0 && bairro && cidade && uf && cep && (tipo == 0 || tipo == 1)) {
                 // Alterar o usuário
                 const usuario = new Usuario(codigo, nome, login, senha, endereco, numero, bairro, cidade, uf, cep, tipo);
                 usuario.alterar()
