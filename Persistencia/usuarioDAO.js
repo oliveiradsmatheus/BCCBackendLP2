@@ -36,7 +36,7 @@ export default class UsuarioDAO {
     async incluir(usuario) {
         if (usuario instanceof Usuario) {
             const conexao = await conectar();
-            const sql = `INSERT INTO usuario(usu_login,usu_nome,usu_senha,usu_endereco,usu_numero,usu_bairro,usu_cidade,usu_uf,usu_cep)
+            const sql = `INSERT INTO usuario(usu_nome,usu_login,usu_senha,usu_endereco,usu_numero,usu_bairro,usu_cidade,usu_uf,usu_cep)
                 values(?,?,?,?,?,?,?,?,?)
             `;
             let parametros = [
@@ -111,7 +111,7 @@ export default class UsuarioDAO {
         await conexao.release();
         return listaUsuarios;
     }
-    
+
     async excluir(usuario) {
         if (usuario instanceof Usuario) {
             const conexao = await conectar();

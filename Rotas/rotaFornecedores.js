@@ -1,4 +1,4 @@
-import { Router } from "express"; //micro-aplicação HTTP
+import { Router } from "express";
 import FornecedorCtrl from "../Controle/fornecedorCtrl.js";
 
 const fornCtrl = new FornecedorCtrl();

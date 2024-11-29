@@ -134,7 +134,7 @@ export default class ProdutoDAO {
         await conexao.release();
         return listaProdutos;
     }
-    
+
     async excluir(produto) {
         if (produto instanceof Produto) {
             const conexao = await conectar();

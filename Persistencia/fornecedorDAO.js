@@ -55,7 +55,7 @@ export default class FornecedorDAO {
             await conexao.release(); // Libera a conexão
         }
     }
-    
+
     async alterar(fornecedor) {
         if (fornecedor instanceof Fornecedor) {
             const conexao = await conectar();

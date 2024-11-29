@@ -158,8 +158,7 @@ export default class FornecedorCtrl {
             // Método consultar retorna uma lista de fornecedor
             fornecedor.consultar(codigo)
                 .then((listaFornecedores) => {
-                    resposta.status(200).json(listaFornecedores
-                    );
+                    resposta.status(200).json(listaFornecedores);
                 })
                 .catch((erro) => {
                     resposta.status(500).json(
@@ -169,7 +168,6 @@ export default class FornecedorCtrl {
                         }
                     );
                 });
-
         } else {
             resposta.status(400).json(
                 {

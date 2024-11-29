@@ -18,10 +18,10 @@ export default class UsuarioCtrl {
             const cep = requisicao.body.cep;
 
             // Pseudo-validação
-            if (login && nome && senha && endereco &&
+            if (nome && login && senha && endereco &&
                 numero > 0 && bairro && cidade && uf && cep) {
                 // Gravar o usuário
-                const usuario = new Usuario(0,login, nome, senha, endereco, numero, bairro, cidade, uf, cep);
+                const usuario = new Usuario(0, nome, login, senha, endereco, numero, bairro, cidade, uf, cep);
                 usuario.incluir()
                     .then(() => {
                         resposta.status(200).json({
@@ -70,11 +70,11 @@ export default class UsuarioCtrl {
             const uf = requisicao.body.uf;
             const cep = requisicao.body.cep;
             // Validação de regra de negócio
-            if (codigo > 0 && login && nome &&
+            if (codigo > 0 && nome && login &&
                 senha && endereco &&
                 numero > 0 && bairro && cidade && uf && cep) {
                 // Alterar o usuário
-                const usuario = new Usuario(codigo, login, nome, senha, endereco, numero, bairro, cidade, uf, cep);
+                const usuario = new Usuario(codigo, nome, login, senha, endereco, numero, bairro, cidade, uf, cep);
                 usuario.alterar()
                     .then(() => {
                         resposta.status(200).json({
