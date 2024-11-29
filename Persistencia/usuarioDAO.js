@@ -72,8 +72,8 @@ export default class UsuarioDAO {
                 usuario.cidade,
                 usuario.uf,
                 usuario.cep,
-                usuario.codigo,
-                usuario.tipo
+                usuario.tipo,
+                usuario.codigo
             ]; // Dados do usuário
             await conexao.execute(sql, parametros);
             await conexao.release(); // Libera a conexão
